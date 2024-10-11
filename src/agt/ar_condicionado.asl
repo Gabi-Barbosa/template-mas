@@ -3,8 +3,23 @@
 /* Initial beliefs and rules */
 
 temperatura_de_preferencia(jonas,25).
+temperatura_atual(30).
 
-/* Initial goals */
+//inferencia 
+//predicado : - predicado1 & predicado2 | (predicado3 | predicado4)
+
+reduzir_temp(C) : - temperatura_atual(TA) & temperatura_de_preferencia(_,TP) & TA>TP & C = TA-TP.
+aumentar_temp(C) : - temperatura_atual(TA) & temperatura_de_preferencia(_,TP) & TA<TP & C = TA-TP.
+
+/* Initial goals */ // desejos
+
+!verificar.
+
+//planos
+//+!desejos: <contexto> <- ações.
+
++!verificar: reduzir_temp(C) <- .print("Reduzir a temperatura em ", C).
++!verificar: aumentar_temp(C) <- .print("Aumentar a temperatura em ", C).
 
 !inicializar_AC.
 
