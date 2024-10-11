@@ -3,13 +3,18 @@
 /* Initial beliefs and rules */
 
 temperatura_de_preferencia(jonas,25).
-temperatura_atual(30).
+temperatura_atual(25).
 
 //inferencia 
 //predicado : - predicado1 & predicado2 | (predicado3 | predicado4)
 
-reduzir_temp(C) : - temperatura_atual(TA) & temperatura_de_preferencia(_,TP) & TA>TP & C = TA-TP.
-aumentar_temp(C) : - temperatura_atual(TA) & temperatura_de_preferencia(_,TP) & TA<TP & C = TA-TP.
+reduzir_temp(C) :- temperatura_atual(TA) & temperatura_de_preferencia(_,TP) & TA>TP & C = TA-TP.
+aumentar_temp(C) :- temperatura_atual(TA) & temperatura_de_preferencia(_,TP) & TA<TP & C = TA-TP.
+
+!avisar.
+
++!avisar <- .broadcast(tell, temperatura_atual(25));
+	        .send("cortina", achieve, fechar_cortina).
 
 /* Initial goals */ // desejos
 
@@ -20,6 +25,7 @@ aumentar_temp(C) : - temperatura_atual(TA) & temperatura_de_preferencia(_,TP) & 
 
 +!verificar: reduzir_temp(C) <- .print("Reduzir a temperatura em ", C).
 +!verificar: aumentar_temp(C) <- .print("Aumentar a temperatura em ", C).
++!verificar <- .print ("Desligar ar condicionado").
 
 !inicializar_AC.
 
